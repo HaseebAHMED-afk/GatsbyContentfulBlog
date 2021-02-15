@@ -1,10 +1,16 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Gatsby Blog Site`,
+    description: `Blog site created using Gatsby and Headless CMS approach.`,
+    author: `@HaseebAHMED-afk`,
   },
   plugins: [
+    `gatsby-transformer-remark`,{
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: "",
+        accessToken: "",
+    }},
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
