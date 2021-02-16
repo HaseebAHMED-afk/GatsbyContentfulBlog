@@ -36,6 +36,9 @@ jobs:
       
       - name: Build Gatsby Site
         run: npm run build
+        env:
+          accessToken: ${{secrets.CONTENTFUL_SPACE_ID}}
+          spaceId: ${{secrets.CONTENTFUL_ACCESS_TOKEN}}
         
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1.11
