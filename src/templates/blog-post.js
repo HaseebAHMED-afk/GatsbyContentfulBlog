@@ -4,8 +4,9 @@ import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Img from "gatsby-image"
+import { documentToPlainTextString } from '@contentful/rich-text-plain-text-renderer'
 
-export const query = graphql`
+export const pageQuery = graphql`
   query($slug: String!) {
     contentfulBlogPost(slug: { eq: $slug }) {
       title
@@ -15,6 +16,9 @@ export const query = graphql`
           ...GatsbyContentfulFluid
         }
       }
+      body {
+        raw
+      }
     }
   }
 `
@@ -22,9 +26,11 @@ export const query = graphql`
 const BlogPost = props => {
 
 
+      
+
   return ( 
       <Layout>
-      <SEO title={props.data.contentfulBlogPost.title} >
+      <SEO title={props.data.contentfulBlogPost.title} />
           <Link to='/blog/' >Visit the blog page</Link>
           <div className='content' >
             <h1>{props.data.contentfulBlogPost.title}</h1>
@@ -40,9 +46,12 @@ const BlogPost = props => {
                     />
                 )
             }
+              {
+                  documentToPlainTextString(JSON.parse(props.data.contentfulBlogPost.body.raw))
+              }
+            <p>
+            </p>
           </div>
-
-      </SEO>
       </Layout>
   )
 }
