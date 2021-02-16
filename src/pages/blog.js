@@ -3,7 +3,6 @@ import { Link, useStaticQuery, graphql } from "gatsby"
 import Img from 'gatsby-image'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
 const Blog = () => {
 
@@ -11,7 +10,7 @@ const Blog = () => {
   const data = useStaticQuery(
     graphql `
     query{
-      allContentfulBlogPost(sort: {fields: publicationDate, order: DESC}) {
+      allContentfulBlogPost {
         edges {
           node {
             id
@@ -24,7 +23,9 @@ const Blog = () => {
               }
             }
             content {
-              raw
+              childMarkdownRemark {
+                excerpt(pruneLength: 150)
+              }
             }
           }
         }
@@ -32,7 +33,6 @@ const Blog = () => {
     }
     `
   )
-    console.log(data);
 
   return(
     <Layout>
@@ -58,11 +58,14 @@ const Blog = () => {
                   />
                 )
               }
-              {/* <p className='excerpt' >
+              <p className='excerpt' >
                 {
-                  documentToReactComponents(edge.node.content.raw)
+                  edge.node.content.childMarkdownRemark.excerpt
                 }
-              </p> */}
+              </p>
+              <div className='button' >
+                <Link to={`/blog/${edge.node.slug}`} >Read More</Link>
+              </div>
             </li>
           )
         })
